@@ -61,13 +61,13 @@ class Cell {
     stroke('#2d3039');
 
     if (this.type === 'agent') {
-      fill(0, 255, 0); // Green for agent
+      fill('#c64ddb');                       // pink
     } else if (this.type === 'death') {
-      fill(255, 0, 0); // Red for losing cell
+      fill('#c32020');                       // red
     } else if (this.type === 'goal') {
-      fill(0, 0, 255); // Blue for winning cell
+      fill('#0fe582');                       // green
     } else if (this.type === 'obstacle') {
-      fill("#191a2b");                               // Black for obstacle
+      fill("#191a2b");                       // dark blue
     } else if (this.type === 'path') {
       fill("#32363f");                       // gray
     }
