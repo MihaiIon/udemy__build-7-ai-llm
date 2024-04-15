@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q-Learning Grid</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="board.js"></script>
+  <style>
+    html {
+      background-color: #24272d;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="play()">Play</button>
+  <button onclick="reset()">Reset</button>
+  Iterations: <input type="number" id="iterationInput" value="100">
+  <script>
+    const GRID_SIZE = 10;
+    const CELL_SIZE = 40;
+
+    let board;
+    let iteration = 0;
+    let intervalId = null;
+
+    function setup() {
+      createCanvas(GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
+      board = new Board(GRID_SIZE);
+
+      // Add cells to the board
+      board.addAgent(0, 0);
+      board.addGoal(GRID_SIZE - 1, GRID_SIZE - 1);
+      board.addObstacle(1, 1);
+      board.addObstacle(2, 1);
+      board.addObstacle(3, 1);
+      board.addDeath(4, 1);
+    }
+  </script>
+</body>
+</html>
