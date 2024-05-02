@@ -71,8 +71,10 @@ class GoalCell extends Cell {
  * The board also contains the agent itself.
  */
 class Board {
-  constructor(size) {
+  constructor(size, cellSize) {
     this.size = size;
+    this.cellSize = cellSize;
+
     this.cells = [];
     for (let x = 0; x < size; x++) {
       this.cells[x] = [];
@@ -155,8 +157,11 @@ class Board {
  *   4 - Death cell
  */
 class BoardFactory {
-  static createBoard(size, configuration) {
-    const board = new Board(size);
+  static createBoard(configuration, options) {
+    const size = configuration.length
+    const cellSize = options.cellSize || 50;
+
+    const board = new Board(size, cellSize);
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
@@ -180,6 +185,6 @@ class BoardFactory {
      [0, 0, 0, 0, 0],
      [0, 0, 0, 0, 2]];
 
-    return this.createBoard(5, configuration);
+    return this.createBoard(configuration, 65);
   }
 }

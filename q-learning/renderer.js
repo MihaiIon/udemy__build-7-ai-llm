@@ -4,12 +4,11 @@ class Renderer {
    * @param {Board} board
    * @param {Agent} agent
    */
-  constructor(board, options) {
+  constructor(board) {
     this.board = board;
     this.agent = board.agent;
-
-    // Options
-    this.cellSize = options.cellSize || 50;
+    
+    this.cellSize = board.cellSize;
   }
 
   getCanvasSize() {
