@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-screen relative">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Learning Grid</title>
+  <title>Q-Learning</title>
+
+  <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- JS Files -->
   <script src="agent.js"></script>
   <script src="board.js"></script>
   <script src="renderer.js"></script>
+  <script src="ui-manager.js"></script>
+
+  <!-- Styles -->
   <style>
     html {
       background-color: #0f172a;
     }
   </style>
 </head>
-<body>
-  <div>
-    <button onclick="moveAgentUp()">Up</button>
-    <button onclick="moveAgentDown()">Down</button>
-    <button onclick="moveAgentLeft()">Left</button>
-    <button onclick="moveAgentRight()">Right</button>
-  </div>
+<body class="h-full flex flex-col">
+  <header id="header" class="container mx-auto pt-20">
+    <nav id="controls-nav" class="bg-gray-800 mt-8 p-4 rounded shadow-md">
+      <div>
+        <button id="btn--move-agent-up">Up</button>
+        <button id="btn--move-agent-right">Right</button>
+        <button id="btn--move-agent-down">Down</button>
+        <button id="btn--move-agent-left">Left</button>
+      </div>
+    </nav>
+  </header>
+  <main id="main" class="container flex items-center justify-around mx-auto py-20">
+    <div id="board" class="flex justify-center items-center"></div>
+    <div id="q-table"></div>
+  </main>
+  <footer class="bg-slate-900 p-4">
+    <h1 class="text-slate-600 text-center text-xl font-thin">Q-Learning by Mihai Ionescu</h1>
+  </footer>
+  
   <script>
-    let board;
     let renderer;
+    let uiManager;
 
     const boardBackgroundColor = '#1e293b';  // dark gray
     const agentCellColor = '#0ea5e9';        // blue
@@ -33,10 +53,13 @@
     const wallCellColor = '#020617';         // dark blue
 
     function setup() {
-      board = BoardFactory.createLevel_1();
-      renderer = new Renderer(board, { cellSize: 50 });
+      uiManager = new UIManager();
+      uiManager.initialize();
 
-      createCanvas(renderer.getCanvasSize(), renderer.getCanvasSize());
+      renderer = uiManager.renderer;
+
+      const canvas = createCanvas(renderer.getCanvasSize(), renderer.getCanvasSize());
+      canvas.parent('board');
     }
 
     function draw() {
