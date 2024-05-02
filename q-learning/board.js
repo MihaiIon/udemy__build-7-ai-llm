@@ -60,6 +60,16 @@ class Board {
     }
   }
 
+  /**
+   * Verifies if the specified position is inside the board and not an obstacle
+   * @param {number} x
+   * @param {number} y 
+   * @returns True if the position is valid, false otherwise
+   */
+  isValidPosition(x, y) {
+    return x >= 0 && x < this.size && y >= 0 && y < this.size && !this.cells[x][y].isObstacle;
+  }
+
   setAgent(x, y) {
     this.agent = new Agent(x, y, this);
   }

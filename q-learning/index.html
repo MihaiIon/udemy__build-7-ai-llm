@@ -15,14 +15,18 @@
   </style>
 </head>
 <body>
-  <button onclick="play()">Play</button>
-  <button onclick="reset()">Reset</button>
+  <div>
+    <button onclick="moveAgentUp()">Up</button>
+    <button onclick="moveAgentDown()">Down</button>
+    <button onclick="moveAgentLeft()">Left</button>
+    <button onclick="moveAgentRight()">Right</button>
+  </div>
   <script>
     let board;
     let renderer;
 
     const boardBackgroundColor = '#1e293b';  // dark gray
-    const agentCellColor = '#db2777';        // pink
+    const agentCellColor = '#0ea5e9';        // blue
     const deathCellColor = '#c32020';        // red
     const goalCellColor = '#4ade80';         // green
     const pathCellColor = '#1e293b';         // gray
@@ -37,6 +41,33 @@
 
     function draw() {
       renderer.render()
+    }
+
+    // TESTING
+    // ==================================================
+
+    function getAgent() {
+      return board.agent;
+    }
+
+    function moveAgentUp() {
+      getAgent().moveUp();
+      renderer.render();
+    }
+
+    function moveAgentDown() {
+      getAgent().moveDown();
+      renderer.render();
+    }
+
+    function moveAgentLeft() {
+      getAgent().moveLeft();
+      renderer.render();
+    }
+
+    function moveAgentRight() {
+      getAgent().moveRight();
+      renderer.render();
     }
   </script>
 </body>
