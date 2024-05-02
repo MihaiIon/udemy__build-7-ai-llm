@@ -1,45 +1,24 @@
 class UIManager {
-  constructor() {
-    this.board = BoardFactory.createLevel_1();
-    this.renderer = new Renderer(this.board);
-    this.qLearning = new QLearning(this.board, { epsilon: 0.1, learningRate: 0.1, discountFactor: 0.9 });
-
-
-    // this.isRunning = false;
-    // this.isTraining = false;
-    // this.isTrainingPaused = false;
-    
-    // this.isEpisodeOver = false;
-    // this.isEpisodeStarted = false;
-    // this.isEpisodePaused = false;
-    // this.isEpisodeCompleted = false;
-    
-    // this.isAgentDead = false;
-    // this.isAgentAtGoal = false;
-    
-    // this.isAgentMoving = false;
-    // this.isAgentMovingUp = false;
-    // this.isAgentMovingRight = false;
-    // this.isAgentMovingDown = false;
-    // this.isAgentMovingLeft = false;
+  constructor(board, qTable) {
+    this.initializeDebugUI(board.agent);
   }
 
-  initialize() {
-    this.initializeDebugUI();
-  }
-
-  initializeDebugUI() {
+  /**
+   * 
+   * @param {Board} board 
+   */
+  initializeDebugUI(agent) {
     const buttonMoveAgentUp = document.getElementById("btn--move-agent-up");
-    buttonMoveAgentUp.onclick = () => this.board.agent.moveUp();
+    buttonMoveAgentUp.onclick = () => agent.moveUp();
 
     const buttonMoveAgentRight = document.getElementById("btn--move-agent-right");
-    buttonMoveAgentRight.onclick = () => this.board.agent.moveRight();
+    buttonMoveAgentRight.onclick = () => agent.moveRight();
 
     const buttonMoveAgentDown = document.getElementById("btn--move-agent-down");
-    buttonMoveAgentDown.onclick = () => this.board.agent.moveDown();
+    buttonMoveAgentDown.onclick = () => agent.moveDown();
 
     const buttonMoveAgentLeft = document.getElementById("btn--move-agent-left");
-    buttonMoveAgentLeft.onclick = () => this.board.agent.moveLeft();
+    buttonMoveAgentLeft.onclick = () => agent.moveLeft();
 
     [ buttonMoveAgentUp,
       buttonMoveAgentRight,

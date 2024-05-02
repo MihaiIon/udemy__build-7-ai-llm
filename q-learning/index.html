@@ -14,6 +14,7 @@
   <script src="board.js"></script>
   <script src="renderer.js"></script>
   <script src="qlearning.js"></script>
+  <script src="simulation-manager.js"></script>
   <script src="ui-manager.js"></script>
 
   <!-- Styles -->
@@ -36,7 +37,7 @@
   </header>
   <main id="main" class="container flex items-center justify-around mx-auto py-20">
     <div id="board" class="flex justify-center items-center"></div>
-    <div id="q-table"></div>
+    <div id="q-table-lookup"></div>
   </main>
   <footer class="bg-slate-900 p-4">
     <h1 class="text-slate-600 text-center text-xl font-thin">Q-Learning by Mihai Ionescu</h1>
@@ -54,10 +55,9 @@
     const wallCellColor = '#020617';         // dark blue
 
     function setup() {
-      uiManager = new UIManager();
-      uiManager.initialize();
+      simulation = new SimulationManager();
 
-      renderer = uiManager.renderer;
+      renderer = simulation.renderer;
 
       const canvas = createCanvas(renderer.getCanvasSize(), renderer.getCanvasSize());
       canvas.parent('board');
@@ -65,33 +65,6 @@
 
     function draw() {
       renderer.render()
-    }
-
-    // TESTING
-    // ==================================================
-
-    function getAgent() {
-      return board.agent;
-    }
-
-    function moveAgentUp() {
-      getAgent().moveUp();
-      renderer.render();
-    }
-
-    function moveAgentDown() {
-      getAgent().moveDown();
-      renderer.render();
-    }
-
-    function moveAgentLeft() {
-      getAgent().moveLeft();
-      renderer.render();
-    }
-
-    function moveAgentRight() {
-      getAgent().moveRight();
-      renderer.render();
     }
   </script>
 </body>
