@@ -5,41 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Q-Learning Grid</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="agent.js"></script>
   <script src="board.js"></script>
+  <script src="renderer.js"></script>
   <style>
     html {
-      background-color: #24272d;
+      background-color: #0f172a;
     }
   </style>
 </head>
 <body>
   <button onclick="play()">Play</button>
   <button onclick="reset()">Reset</button>
-  Iterations: <input type="number" id="iterationInput" value="100">
   <script>
-    const GRID_SIZE = 10;
-    const CELL_SIZE = 40;
-
     let board;
-    let iteration = 0;
-    let intervalId = null;
+    let renderer;
+
+    const boardBackgroundColor = '#1e293b';  // dark gray
+    const agentCellColor = '#db2777';        // pink
+    const deathCellColor = '#c32020';        // red
+    const goalCellColor = '#4ade80';         // green
+    const pathCellColor = '#1e293b';         // gray
+    const wallCellColor = '#020617';         // dark blue
 
     function setup() {
-      createCanvas(GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
-      board = new Board(GRID_SIZE);
+      board = BoardFactory.createLevel_1();
+      renderer = new Renderer(board, { cellSize: 50 });
 
-      // Add cells to the board
-      board.addAgent(0, 0);
-      board.addGoal(GRID_SIZE - 1, GRID_SIZE - 1);
-      board.addObstacle(1, 1);
-      board.addObstacle(2, 1);
-      board.addObstacle(3, 1);
-      board.addDeath(4, 1);
+      createCanvas(renderer.getCanvasSize(), renderer.getCanvasSize());
     }
 
     function draw() {
-      background(255);
-      board.display();
+      renderer.render()
     }
   </script>
 </body>

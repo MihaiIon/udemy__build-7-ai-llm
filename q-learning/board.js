@@ -1,114 +1,112 @@
-class Board {
-  constructor(size) {
-    this.size = size;
-    this.cells = [];
-    for (let x = 0; x < size; x++) {
-      this.cells[x] = [];
-      for (let y = 0; y < size; y++) {
-        this.cells[x][y] = new Path(x, y);
-      }
-    }
-  }
-
-  addCell(x, y, type) {
-    this.cells[x][y] = new Cell(x, y, type);
-  }
-
-  addAgent(x, y) {
-    this.cells[x][y] = new Agent(x, y);
-  }
-
-  addDeath(x, y) {
-    this.cells[x][y] = new Death(x, y);
-  }
-
-  addGoal(x, y) {
-    this.cells[x][y] = new Goal(x, y);
-  }
-
-  addObstacle(x, y) {
-    this.cells[x][y] = new Obstacle(x, y);
-  }
-
-  addPath(x, y) {
-    this.cells[x][y] = new Path(x, y);
-  }
-
-  display() {
-    for (let x = 0; x < this.size; x++) {
-      for (let y = 0; y < this.size; y++) {
-        if (this.cells[x][y]) {
-          this.cells[x][y].display();
-        }
-      }
-    }
-  }
-}
-
 class Cell {
   constructor(x, y, type) {
     this.x = x;
     this.y = y;
     this.type = type;
-
+    
+    this.color = color(0);
     this.isObstacle = false;
     this.reward = 0;
   }
+}
 
-  display() {
-    const bacgroundColor = color("#32363f");
+class PathCell extends Cell {
+  constructor(x, y) {
+    super(x, y, 'path');
 
-    stroke('#2d3039');
-
-    if (this.type === 'agent') {
-      fill('#c64ddb');                       // pink
-    } else if (this.type === 'death') {
-      fill('#c32020');                       // red
-    } else if (this.type === 'goal') {
-      fill('#0fe582');                       // green
-    } else if (this.type === 'obstacle') {
-      fill("#191a2b");                       // dark blue
-    } else if (this.type === 'path') {
-      fill("#32363f");                       // gray
-    }
-    rect(this.x * CELL_SIZE, this.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    this.color = color(pathCellColor);
   }
 }
 
-class Agent extends Cell {
+class WallCell extends Cell {
   constructor(x, y) {
-    super(x, y, 'agent');
+    super(x, y, 'wall');
 
+    this.color = color(wallCellColor);
     this.isObstacle = true;
   }
 }
 
-class Death extends Cell {
+class DeathCell extends Cell {
   constructor(x, y) {
     super(x, y, 'death');
 
+    this.color = color(deathCellColor);
     this.reward = -1;
   }
 }
 
-class Goal extends Cell {
+class GoalCell extends Cell {
   constructor(x, y) {
     super(x, y, 'goal');
 
+    this.color = color(goalCellColor);
     this.reward = 1;
   }
 }
 
-class Obstacle extends Cell {
-  constructor(x, y) {
-    super(x, y, 'obstacle');
+class Board {
+  constructor(size) {
+    this.agent = null;
 
-    this.isObstacle = true;
+    this.size = size;
+    this.cells = [];
+    for (let x = 0; x < size; x++) {
+      this.cells[x] = [];
+      for (let y = 0; y < size; y++) {
+        // Initialize all cells as paths
+        this.setPathCell(x, y);
+      }
+    }
+  }
+
+  setAgent(x, y) {
+    this.agent = new Agent(x, y, this);
+  }
+
+  setDeathCell(x, y) {
+    this.cells[x][y] = new DeathCell(x, y);
+  }
+
+  setGoalCell(x, y) {
+    this.cells[x][y] = new GoalCell(x, y);
+  }
+
+  setPathCell(x, y) {
+    this.cells[x][y] = new PathCell(x, y);
+  }
+
+  setWallCell(x, y) {
+    this.cells[x][y] = new WallCell(x, y);
   }
 }
 
-class Path extends Cell {
-  constructor(x, y) {
-    super(x, y, 'path');
+class BoardFactory {
+  static createBoard(size, configuration) {
+    const board = new Board(size);
+
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        switch (configuration[y][x]) {
+          case 1: board.setAgent(x, y); break;
+          case 2: board.setGoalCell(x, y); break;
+          case 3: board.setWallCell(x, y); break;
+          case 4: board.setDeathCell(x, y); break;
+        }
+      }
+    }
+
+    return board;
+  }
+
+  static createLevel_1() {
+    const configuration =
+    [[1, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0],
+     [0, 3, 3, 3, 0],
+     [0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 2]];
+
+    return this.createBoard(5, configuration);
   }
 }
