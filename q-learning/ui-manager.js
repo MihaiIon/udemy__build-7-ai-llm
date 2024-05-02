@@ -1,7 +1,9 @@
 class UIManager {
   constructor() {
     this.board = BoardFactory.createLevel_1();
-    this.renderer = new Renderer(this.board, { cellSize: 50 });
+    this.renderer = new Renderer(this.board, { cellSize: 65 });
+    this.qLearning = new QLearning(this.board, { epsilon: 0.1, learningRate: 0.1, discountFactor: 0.9 });
+
 
     // this.isRunning = false;
     // this.isTraining = false;
@@ -23,8 +25,6 @@ class UIManager {
   }
 
   initialize() {
-
-
     this.initializeDebugUI();
   }
 
