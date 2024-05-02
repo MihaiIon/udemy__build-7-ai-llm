@@ -9,9 +9,8 @@ class Cell {
     this.x = x;
     this.y = y;
     this.type = type;
-    
     this.color = color(0);
-    this.isObstacle = false;
+
     this.reward = 0;
   }
 }
@@ -36,7 +35,6 @@ class WallCell extends Cell {
     super(x, y, 'wall');
 
     this.color = color(wallCellColor);
-    this.isObstacle = true;
   }
 }
 
@@ -69,14 +67,11 @@ class GoalCell extends Cell {
 }
 
 /**
- * Represents the game board.
  * The board is a grid of cells that the agent can move to.
  * The board also contains the agent itself.
  */
 class Board {
   constructor(size) {
-    this.agent = null;
-
     this.size = size;
     this.cells = [];
     for (let x = 0; x < size; x++) {
@@ -86,6 +81,31 @@ class Board {
         this.setPathCell(x, y);
       }
     }
+
+    this.agent = null;
+  }
+
+  /**
+   * Verifies if the specified position is an obstacle
+   * @param {number} x The x-coordinate of the cell
+   * @param {number} y The y-coordinate of the cell
+   * @returns True if the cell is an obstacle, false otherwise
+   */
+  isObstacle(x, y) {
+    const cell = this.getCell(x, y);
+    return cell instanceof WallCell
+  }
+
+  /**
+   * Verifies if the specified position is a terminal cell
+   * The agent will stop moving when reaching it
+   * @param {number} x The x-coordinate of the cell
+   * @param {number} y The y-coordinate of the cell
+   * @returns True if the cell is a terminal cell, false otherwise
+   */
+  isTerminal(x, y) {
+    const cell = this.getCell(x, y);
+    return cell instanceof GoalCell || cell instanceof DeathCell;
   }
 
   /**
@@ -95,7 +115,11 @@ class Board {
    * @returns True if the position is valid, false otherwise
    */
   isValidPosition(x, y) {
-    return x >= 0 && x < this.size && y >= 0 && y < this.size && !this.cells[x][y].isObstacle;
+    return x >= 0 && x < this.size && y >= 0 && y < this.size && !this.isObstacle(x, y);
+  }
+
+  getCell(x, y) {
+    return this.cells[x][y];
   }
 
   setAgent(x, y) {
@@ -125,7 +149,7 @@ class Board {
  * 
  * The integers represent the following:
  *   0 - Path cell
- *   1 - Agent cell
+ *   1 - Agent cell (initial position)
  *   2 - Goal cell
  *   3 - Wall cell
  *   4 - Death cell
