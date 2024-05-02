@@ -127,15 +127,6 @@ class QTable {
   }
 
   /**
-   * Finds the highest Q-value for the state
-   * @param {Cell} state The current state
-   * @returns {number} The highest Q-value for the state
-   */
-  max(state) {
-    return Math.max(...this.getValues(state));
-  }
-
-  /**
    * Gets the key for the state-action pair
    * @param {Cell} state The current state
    * @param {number} action The action to take
