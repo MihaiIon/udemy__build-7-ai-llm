@@ -1,3 +1,9 @@
+/**
+ * Base class for all cells in the board.
+ * @param {number} x The x-coordinate of the cell
+ * @param {number} y The y-coordinate of the cell
+ * @param {string} type The type of the cell: ['path', 'wall', 'death', 'goal']
+ */
 class Cell {
   constructor(x, y, type) {
     this.x = x;
@@ -10,6 +16,9 @@ class Cell {
   }
 }
 
+/**
+ * Represents an empty cell that the agent can move to.
+ */
 class PathCell extends Cell {
   constructor(x, y) {
     super(x, y, 'path');
@@ -18,6 +27,10 @@ class PathCell extends Cell {
   }
 }
 
+/**
+ * Represents a obstacle cell.
+ * The agent cannot move to this cell.
+ */
 class WallCell extends Cell {
   constructor(x, y) {
     super(x, y, 'wall');
@@ -27,6 +40,11 @@ class WallCell extends Cell {
   }
 }
 
+/**
+ * Represents a cell that kills the agent.
+ * The agent will receive a negative reward when moving to this cell.
+ * The episode will end when the agent moves to this cell.
+ */
 class DeathCell extends Cell {
   constructor(x, y) {
     super(x, y, 'death');
@@ -36,6 +54,11 @@ class DeathCell extends Cell {
   }
 }
 
+/**
+ * Represents the goal cell.
+ * The agent will receive a positive reward when moving to this cell.
+ * The episode will end when the agent moves to this cell.
+ */
 class GoalCell extends Cell {
   constructor(x, y) {
     super(x, y, 'goal');
@@ -45,6 +68,11 @@ class GoalCell extends Cell {
   }
 }
 
+/**
+ * Represents the game board.
+ * The board is a grid of cells that the agent can move to.
+ * The board also contains the agent itself.
+ */
 class Board {
   constructor(size) {
     this.agent = null;
@@ -62,8 +90,8 @@ class Board {
 
   /**
    * Verifies if the specified position is inside the board and not an obstacle
-   * @param {number} x
-   * @param {number} y 
+   * @param {number} x The x-coordinate of the cell
+   * @param {number} y The y-coordinate of the cell
    * @returns True if the position is valid, false otherwise
    */
   isValidPosition(x, y) {
@@ -91,6 +119,17 @@ class Board {
   }
 }
 
+/**
+ * Factory class to create boards with different configurations.
+ * The configurations are specified as a matrix of integers.
+ * 
+ * The integers represent the following:
+ *   0 - Path cell
+ *   1 - Agent cell
+ *   2 - Goal cell
+ *   3 - Wall cell
+ *   4 - Death cell
+ */
 class BoardFactory {
   static createBoard(size, configuration) {
     const board = new Board(size);
