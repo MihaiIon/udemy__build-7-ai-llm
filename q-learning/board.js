@@ -185,6 +185,6 @@ class BoardFactory {
      [0, 0, 0, 0, 0],
      [0, 0, 0, 0, 2]];
 
-    return this.createBoard(configuration, 65);
+    return this.createBoard(configuration, { cellSize: 65 });
   }
 }
