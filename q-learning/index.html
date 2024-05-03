@@ -7,6 +7,7 @@
 
   <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.8.0/countUp.umd.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- JS Files -->
@@ -25,6 +26,7 @@
   </style>
 </head>
 <body class="h-full flex flex-col">
+
   <header id="header" class="container mx-auto pt-20">
     <nav id="controls-nav" class="bg-gray-800 mt-8 p-4 rounded shadow-md">
       <div>
@@ -35,17 +37,23 @@
       </div>
     </nav>
   </header>
+
   <main id="main" class="container flex items-center justify-around mx-auto py-20">
     <div id="board" class="flex justify-center items-center"></div>
-    <div id="q-table-lookup"></div>
+    <table id="q-table-lookup">
+      <tbody></tbody>
+    </table>
   </main>
+
   <footer class="bg-slate-900 p-4">
     <h1 class="text-slate-600 text-center text-xl font-thin">Q-Learning by Mihai Ionescu</h1>
   </footer>
   
   <script>
+    const CountUp = countUp.CountUp;
+
     let renderer;
-    let uiManager;
+    let simulation;
 
     const boardBackgroundColor = '#1e293b';  // dark gray
     const agentCellColor = '#0ea5e9';        // blue
